@@ -5,6 +5,10 @@ data$cohort_size_number_only <- as.numeric(data$cohort_size_number_only)
 #this code analyses unadj pre bc death OR
 p1 <- data[c(3, 4, 75:78)]
 unadj_pre_bc_death_OR_only_data <- p1[c(11, 20, 24),]
+#set the three unadj pre bc death OR columns I’ll be using to numerical
+unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_only <- as.numeric(unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_only)
+unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_lower_CI <- as.numeric(unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_lower_CI)
+unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_higher_CI <- as.numeric(unadj_pre_bc_death_OR_only_data$unadj_pre_bc_death_OR_higher_CI)
 unadj_pre_bc_death_OR_only_analysis <- metagen(TE = log(unadj_pre_bc_death_OR_only), lower = log(unadj_pre_bc_death_OR_lower_CI), upper = log(unadj_pre_bc_death_OR_higher_CI), studlab = author_year, data = unadj_pre_bc_death_OR_only_data, exclude = NULL, sm = "OR")
 summary(unadj_pre_bc_death_OR_only_analysis)
 forest.meta(unadj_pre_bc_death_OR_only_analysis, sortvar = TE,predict = TRUE, print.tau2 = FALSE, leftlabs = c("Author", "g", "SE"))
@@ -94,7 +98,7 @@ no_fraser_all_pre_bc_death_analysis_data$pre_bc_death_OR_or_HR_higher_CIs <- as.
 no_fraser_all_pre_bc_death_analysis <- metagen(TE = log(pre_bc_death_OR_or_HR), lower = log(pre_bc_death_OR_or_HR_lower_CIs), upper = log(pre_bc_death_OR_or_HR_higher_CIs), studlab = author_year, data = no_fraser_all_pre_bc_death_analysis_data, exclude = NULL, sm = "HR")
 summary(no_fraser_all_pre_bc_death_analysis)
 forest.meta(no_fraser_all_pre_bc_death_analysis, sortvar = TE,predict = TRUE, print.tau2 = FALSE, leftlabs = c("Author", "g", "SE"))
-#this bit of code is for meta analysing unadj pre ac death HR only
+#this bit of code is for meta analying unadj pre ac death HR only
 p6 <- data[c(3, 4, 183:186)]
 unadj_pre_ac_death_HR_data <- p6[c(4, 5, 15, 24, 26),]
 unadj_pre_ac_death_HR_data$unadj_pre_ac_death_HR_only <- as.numeric(unadj_pre_ac_death_HR_data$unadj_pre_ac_death_HR_only)
@@ -528,7 +532,7 @@ stage3and4_post_bc_death_data <- p31[c(1, 15, 17, 20),]
 #this code is for a meta regression using the stage percentages (need to use data2 dataset for this)
 #this bit is for pre bc death 
 #you need to run the the pre bc death code first (need to write it out here to convert to data2) 
-p24 <- data2[c(1, 3, 4, 57:61, 80:83, 90:93)]
+p24 <- data2[c(1, 3, 4, 57:60, 111:114, 121:124)]
 #to run this code without fraser just get rid of 6 in the next line
 all_pre_bc_death_analysis_data2 <- p24[c(1, 4, 6, 7, 11, 13, 15, 16, 17, 21, 23),]
 #unite columns
@@ -559,7 +563,7 @@ metareg_stage_4_pre_bc_death <- metareg(all_pre_bc_death_analysis2, ~Stage_4_pro
 metareg_stage_4_pre_bc_death
 bubble(metareg_stage_4_pre_bc_death, studlab = TRUE)
 #this code is for a pre ac death stage meta regression
-p25 <- data2[c(1, 3, 4, 57:61, 189:192, 199:202)]
+p25 <- data2[c(1, 3, 4, 57:60, 214:217, 224:227)]
 all_pre_ac_death_data2 <- p25[c(1, 4,  6, 11, 15, 18, 21, 23, 24),]
 #Fraser is 6 here again 
 #unite columns
@@ -589,7 +593,7 @@ metareg_stage_4_pre_ac_death <- metareg(all_pre_ac_death_analysis2, ~Stage_4_pro
 metareg_stage_4_pre_ac_death
 bubble(metareg_stage_4_pre_ac_death, studlab = TRUE)
 #this code is for a pre rec stage meta regression
-p26 <- data2[c(1, 57:61,  210:213, 220:223, 226:229, 231:234)]
+p26 <- data2[c(1, 57:60, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data2 <- p26[c(5, 7, 10, 18, 23, 24),]
 #unite columns 
 all_pre_rec_data2 <- all_pre_rec_data2 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
@@ -624,7 +628,7 @@ metareg_stage_3_pre_rec
 bubble(metareg_stage_3_pre_rec, studlab = TRUE)
 #didn't do a Stage IV one bc only 2 papers had data
 #this code is for a post bc death stage meta regression
-p27 <- data2[c(1, 57:61, 256:259, 267:270, 272:275, 277:280)]
+p27 <- data2[c(1, 57:60, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data2 <- p27[c(2, 3, 6, 7, 8, 9, 11, 15, 16, 22, 23),]
 all_post_bc_death_data2$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data2$unadj_post_bc_death_OR_only)
 all_post_bc_death_data2$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data2$unadj_post_bc_death_OR_CI)
@@ -656,7 +660,7 @@ metareg_stage_4_post_bc_death <- metareg(all_post_bc_death_analysis2, ~Stage_4_p
 metareg_stage_4_post_bc_death
 bubble(metareg_stage_4_post_bc_death, studlab = TRUE)
 #this code is for a post ac death stage meta regression
-p28 <- data2[c(1, 57:61, 596:599, 606:609, 612:615, 625:628, 630:633)]
+p28 <- data2[c(1, 57:60, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data2 <- p28[c(2, 3, 6, 8, 9, 11, 12, 14, 15, 16, 19, 20, 23, 24),]
 #took wang out bc don't need it (no stage data) and was messing my attempts to make a bubble plot up
 all_post_ac_data2$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data2$post_ac_death_unadj_HR)
@@ -712,7 +716,7 @@ metareg_stage_4_post_ac_death <- metareg(all_post_ac_death_analysis2, ~Stage_4_p
 metareg_stage_4_post_ac_death
 bubble(metareg_stage_4_post_ac_death, studlab = TRUE)
 #this code is for a meta regression of post rec by stage proportion
-p29 <- data2[c(1, 57:61, 768:771, 774:777, 787:790)]
+p29 <- data2[c(1, 57:60, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- p29[c(5, 8, 10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -764,21 +768,48 @@ metareg_age_all_post_rec
 bubble(metareg_age_all_post_rec, studlab = TRUE)
 #this next bit of code is for menopause-stratified meta regressions
 #I am going to create 2 new columns, '% of women in study postmenopausal' and '% of women in study premenopausal'
-#and do meta regressions based on therese columns
+#and do meta regressions based on these columns
 #not ideal bc some are 100% postmenopausal, but should be useful for spotting patterns (hopefully)
 #rewrite pre bc death stuff to include the menopause columns 
 #to save space I'm just going to change the line about which rows to select from the stage 1 pre bc death code (and add the menopause columns to it)
-#so for these meta regressions, run the two lines specifying which rows/columns to take, then the rest of the original code up to the meta analysis bit, then the new meta regression code from below
+#so for these meta regressions, run the two lines specifying which rows/columns to take, then the rest of the original code up to the meta-analysis bit, then the new meta regression code from below
 #also made alterations for fact there are 2 extra columns in data2 now
-p24 <- data2[c(1, 3, 4, 57:61, 68:69, 82:85, 92:95)]
+p24 <- data2[c(1, 3, 4, 57:60, 86:87, 111:114, 121:124)]
 all_pre_bc_death_analysis_data2 <- p24[c(4, 11, 21),]
+#run the meta-analysis again
+all_pre_bc_death_analysis_data2 <- all_pre_bc_death_analysis_data2 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR)
+all_pre_bc_death_analysis_data2 <- all_pre_bc_death_analysis_data2 %>% unite(pre_bc_death_OR_or_HR_CIs, unadj_pre_bc_death_OR_CI, adj_pre_bc_death_HR_CI, sep = "")
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_CIs <- gsub("NA", "", all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_CIs)
+all_pre_bc_death_analysis_data2 <- all_pre_bc_death_analysis_data2 %>% unite(pre_bc_death_OR_or_HR_lower_CIs, unadj_pre_bc_death_OR_lower_CI, adj_pre_bc_death_HR_CI_lower, sep = "")
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_lower_CIs <- gsub("NA", "", all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_lower_CIs)
+all_pre_bc_death_analysis_data2 <- all_pre_bc_death_analysis_data2 %>% unite(pre_bc_death_OR_or_HR_higher_CIs, unadj_pre_bc_death_OR_higher_CI, adj_pre_bc_death_HR_CI_upper, sep = "")
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_higher_CIs <- gsub("NA", "", all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_higher_CIs)
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR <- as.numeric(all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR)
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_lower_CIs <- as.numeric(all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_lower_CIs)
+all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_higher_CIs <- as.numeric(all_pre_bc_death_analysis_data2$pre_bc_death_OR_or_HR_higher_CIs)
+#run meta analysis  
+all_pre_bc_death_analysis2 <- metagen(TE = log(pre_bc_death_OR_or_HR), lower = log(pre_bc_death_OR_or_HR_lower_CIs), upper = log(pre_bc_death_OR_or_HR_higher_CIs), studlab = author_year, data = all_pre_bc_death_analysis_data2, exclude = NULL, sm = "HR")
 #run meta regression based on this new data
 metareg_menopause_pre_bc_death <- metareg(all_pre_bc_death_analysis2, ~percent_postmenopausal)
 metareg_menopause_pre_bc_death
 bubble(metareg_menopause_pre_bc_death, studlab = TRUE)
 #do same for pre ac death
-p25 <- data2[c(1, 3, 4, 57:61, 68:69, 185:188, 195:198)]
+p25 <- data2[c(1, 3, 4, 57:60, 86:87, 214:217, 224:227)]
 all_pre_ac_death_data2 <- p25[c(4, 11, 18, 21),]
+#run meta-analysis again
+all_pre_ac_death_data2 <- all_pre_ac_death_data2 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data2$pre_ac_death_OR_or_HR)
+all_pre_ac_death_data2 <- all_pre_ac_death_data2 %>% unite(pre_ac_death_OR_or_HR_CI, unadj_pre_ac_death_after5years_OR_CI, adj_pre_ac_death_CI, sep = "")
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI <- gsub("NA", "", all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI)
+all_pre_ac_death_data2 <- all_pre_ac_death_data2 %>% unite(pre_ac_death_OR_or_HR_CI_lower, unadj_pre_ac_death_after5years_OR_CI_lower, adj_pre_ac_death_CI_lower, sep = "")
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_lower <- gsub("NA", "", all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_lower)
+all_pre_ac_death_data2 <- all_pre_ac_death_data2 %>% unite(pre_ac_death_OR_or_HR_CI_upper, unadj_pre_ac_death_after5years_OR_CI_upper, adj_pre_ac_death_CI_upper, sep = "")
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_upper <- gsub("NA", "", all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_upper)
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR <- as.numeric(all_pre_ac_death_data2$pre_ac_death_OR_or_HR)
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_lower <- as.numeric(all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_lower)
+all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_upper <- as.numeric(all_pre_ac_death_data2$pre_ac_death_OR_or_HR_CI_upper)
+all_pre_ac_death_analysis2 <- metagen(TE = log(pre_ac_death_OR_or_HR), lower = log(pre_ac_death_OR_or_HR_CI_lower), upper = log(pre_ac_death_OR_or_HR_CI_upper), studlab = author_year, data = all_pre_ac_death_data2, exclude = NULL, sm = "HR")
 #do 2 analyses, 1 with % postmenopausal and 1 with % premenopausal (as Sendur's values for these two do not sum to 100)
 metareg_menopause_pre_ac_death <- metareg(all_pre_ac_death_analysis2, ~percent_postmenopausal)
 metareg_menopause_pre_ac_death
@@ -787,8 +818,30 @@ metareg_menopause_pre_ac_death2 <- metareg(all_pre_ac_death_analysis2, ~percent_
 metareg_menopause_pre_ac_death2
 bubble(metareg_menopause_pre_ac_death2, studlab = TRUE)
 #do same for pre rec
-p26 <- data2[c(1, 57:61, 68:69, 212:215, 222:225, 228:231, 233:236)]
+p26 <- data2[c(1, 57:60, 86:87, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data2 <- p26[c(5, 10, 18),]
+#run meta analysis again
+all_pre_rec_data2 <- all_pre_rec_data2 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
+all_pre_rec_data2$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR <- gsub("0.88", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR <- gsub("0.98", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR) 
+all_pre_rec_data2 <- all_pre_rec_data2 %>% unite(pre_rec_OR_RR_or_HR_CI, unadj_pre_rec_after5years_OR_CI, pre_adj_rec_RR_CI, unadj_pre_rec_HR_CI, adj_pre_rec_HR_CI, sep = "")
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI <- gsub("NA", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI <- gsub("0.80-0.96", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI <- gsub("0.88-1.09", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI)
+all_pre_rec_data2 <- all_pre_rec_data2 %>% unite(pre_rec_OR_RR_or_HR_CI_lower, unadj_pre_rec_after5years_OR_CI_lower, pre_adj_rec_RR_CI_lower, unadj_pre_rec_CI_lower, adj_pre_rec__HR_CI_lower, sep = "")
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower <- gsub("NA", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower <- gsub("0.80", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower <- gsub("0.88", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower)
+all_pre_rec_data2 <- all_pre_rec_data2 %>% unite(pre_rec_OR_RR_or_HR_CI_upper, unadj_pre_rec_after5years_OR_CI_upper, pre_adj_rec_RR_CI_upper, unadj_pre_rec_CI_upper, adj_pre_rec__HR_CI_upper, sep = "")
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper <- gsub("NA", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper <- gsub("0.96", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper <- gsub("1.09", "", all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR <- as.numeric(all_pre_rec_data2$pre_rec_OR_RR_or_HR)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower <- as.numeric(all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_lower)
+all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper <- as.numeric(all_pre_rec_data2$pre_rec_OR_RR_or_HR_CI_upper)
+all_pre_rec_analysis2 <- metagen(TE = log(pre_rec_OR_RR_or_HR), lower = log(pre_rec_OR_RR_or_HR_CI_lower), upper = log(pre_rec_OR_RR_or_HR_CI_upper), studlab = author_year, data = all_pre_rec_data2, exclude = NULL, sm = "HR")
+#do meta regressions
 metareg_menopause_pre_rec <- metareg(all_pre_rec_analysis2, ~percent_premenopausal)
 metareg_menopause_pre_rec
 bubble(metareg_menopause_pre_rec, studlab = TRUE)
@@ -796,27 +849,98 @@ metareg_menopause_pre_rec2 <- metareg(all_pre_rec_analysis2, ~percent_postmenopa
 metareg_menopause_pre_rec2
 bubble(metareg_menopause_pre_rec2, studlab = TRUE)
 #now do same for post bc death
-p27 <- data2[c(1, 57:61, 68:69, 258:261, 269:272, 274:277, 279:282)]
+p27 <- data2[c(1, 57:60, 86:87, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data2 <- p27[c(3, 8, 11, 22),]
+all_post_bc_death_data2$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data2$unadj_post_bc_death_OR_only)
+all_post_bc_death_data2$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data2$unadj_post_bc_death_OR_CI)
+all_post_bc_death_data2$unadj_post_bc_death_OR_CI_lower <- gsub("0.83", "", all_post_bc_death_data2$unadj_post_bc_death_OR_CI_lower)
+all_post_bc_death_data2$unadj_post_bc_death_OR_CI_upper <- gsub("1.15", "", all_post_bc_death_data2$unadj_post_bc_death_OR_CI_upper)
+all_post_bc_death_data2 <- all_post_bc_death_data2 %>% unite(post_bc_death_OR_RR_or_HR, adj_post_bc_death_RR_only, post_adj_bc_death_OR_only, adj_post_bc_death_HR_only, unadj_post_bc_death_OR_only, sep = "")
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR <- gsub("NA", "", all_post_bc_death_data2$post_bc_death_OR_RR_or_HR)
+all_post_bc_death_data2 <- all_post_bc_death_data2 %>% unite(post_bc_death_OR_RR_or_HR_CI, adj_post_bc_death_RR_CI, post_adj_bc_death_OR_CI, adj_post_bc_death_HR_CI, unadj_post_bc_death_OR_CI, sep = "")
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI <- gsub("NA", "", all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI)
+all_post_bc_death_data2 <- all_post_bc_death_data2 %>% unite(post_bc_death_OR_RR_or_HR_CI_lower, adj_post_bc_death_RR_CI_lower, post_adj_bc_death_OR_CI_lower, adj_post_bc_death_HR_CI_lower, unadj_post_bc_death_OR_CI_lower, sep = "")
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_lower <- gsub("NA", "", all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_lower)
+all_post_bc_death_data2 <- all_post_bc_death_data2 %>% unite(post_bc_death_OR_RR_or_HR_CI_upper, adj_post_bc_death_RR_CI_upper, post_adj_bc_death_OR_CI_upper, adj_post_bc_death_HR_CI_upper, unadj_post_bc_death_OR_CI_upper, sep = "")
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_upper <- gsub("NA", "", all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_upper)
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR <- as.numeric(all_post_bc_death_data2$post_bc_death_OR_RR_or_HR)
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_lower <- as.numeric(all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_lower)
+all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_upper <- as.numeric(all_post_bc_death_data2$post_bc_death_OR_RR_or_HR_CI_upper)
+all_post_bc_death_analysis2 <- metagen(TE = log(post_bc_death_OR_RR_or_HR), lower = log(post_bc_death_OR_RR_or_HR_CI_lower), upper = log(post_bc_death_OR_RR_or_HR_CI_upper), studlab = author_year, data = all_post_bc_death_data2, exclude = NULL, sm = "HR")
 metareg_menopause_post_bc_death <- metareg(all_post_bc_death_analysis2, ~percent_postmenopausal)
 metareg_menopause_post_bc_death
 bubble(metareg_menopause_post_bc_death, studlab = TRUE)
 #now do same for post ac death
-p28 <- data2[c(1, 57:61, 68:69, 592:595, 602:605, 608:611, 621:624, 626:629)]
+p28 <- data2[c(1, 57:60, 86:87, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data2 <- p28[c(3, 8, 11, 20, 22),]
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("1.87", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("2.18", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("0.5", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR <- gsub("1.26", "", all_post_ac_data2$post_ac_death_unadj_HR)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("0.92-1.26", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("1.01-1.47", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("1.35-2.61", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("1.99-2.40", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("0.34-0.75", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("0.69-2.31", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI <- gsub("0.79-1.48", "", all_post_ac_data2$post_ac_death_unadj_HR_CI)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("0.92", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("1.01", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("1.35", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("1.99", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("0.34", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("0.69", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_lower <- gsub("0.79", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_lower)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("1.26", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("1.47", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("2.61", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("2.4", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("0.75", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("2.31", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2$post_ac_death_unadj_HR_CI_upper <- gsub("1.48", "", all_post_ac_data2$post_ac_death_unadj_HR_CI_upper)
+all_post_ac_data2 <- all_post_ac_data2 %>% unite(all_post_ac_death_OR_RR_or_HR, unadj_post_ac_death_RR_only, post_ac_death_unadj_HR, post_ac_death_adj_RR, adj_post_ac_death_OR_only, post_ac_death_adj_HR, sep = "")
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR <- gsub("NA", "", all_post_ac_data2$all_post_ac_death_OR_RR_or_HR)
+all_post_ac_data2 <- all_post_ac_data2 %>% unite(all_post_ac_death_OR_RR_or_HR_CI, unadj_post_ac_death_RR_CI, post_ac_death_unadj_HR_CI, post_ac_death_adj_RR_CI, adj_post_ac_death_OR_CI, post_ac_death_adj_HR_CI, sep = "")
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI <- gsub("NA", "", all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI)
+all_post_ac_data2 <- all_post_ac_data2 %>% unite(all_post_ac_death_OR_RR_or_HR_CI_lower, unadj_post_ac_death_RR_CI_lower, post_ac_death_unadj_HR_CI_lower, post_ac_death_adj_RR_CI_lower, adj_post_ac_death_OR_CI_lower, post_ac_death_adj_HR_CI_lower, sep = "")
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_lower <- gsub("NA", "", all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_lower)
+all_post_ac_data2 <- all_post_ac_data2 %>% unite(all_post_ac_death_OR_RR_or_HR_CI_upper, unadj_post_ac_death_RR_CI_upper, post_ac_death_unadj_HR_CI_upper, post_ac_death_adj_RR_CI_upper, adj_post_ac_death_OR_CI_upper, post_ac_death_adj_HR_CI_upper, sep = "")
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_upper <- gsub("NA", "", all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_upper)
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR <- as.numeric(all_post_ac_data2$all_post_ac_death_OR_RR_or_HR)
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_lower <- as.numeric(all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_lower)
+all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_upper <- as.numeric(all_post_ac_data2$all_post_ac_death_OR_RR_or_HR_CI_upper)
+all_post_ac_death_analysis2 <- metagen(TE = log(all_post_ac_death_OR_RR_or_HR), lower = log(all_post_ac_death_OR_RR_or_HR_CI_lower), upper = log(all_post_ac_death_OR_RR_or_HR_CI_upper), studlab = author_year, data = all_post_ac_data2, exclude = NULL, sm = "HR")
 metareg_menopause_post_ac_death <- metareg(all_post_ac_death_analysis2, ~percent_postmenopausal)
 metareg_menopause_post_ac_death
 bubble(metareg_menopause_post_ac_death, studlab = TRUE)
 #now do same for post rec
-p29 <- data2[c(1, 57:61, 68:69, 770:773, 776:779, 789:792)]
+p29 <- data2[c(1, 57:60, 86:87, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- p29[c(5, 8, 10, 20),]
+all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
+all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
+all_post_rec_data2$post_rec_unadj_HR_CI_lower <- gsub("0.81", "", all_post_rec_data2$post_rec_unadj_HR_CI_lower)
+all_post_rec_data2$post_rec_unadj_HR_CI_upper <- gsub("1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI_upper)
+all_post_rec_data2 <- all_post_rec_data2 %>% unite(all_post_rec_RR_or_HR, post_rec_unadj_HR_only, post_rec_adj_RR_only, post_rec_adj_HR_only, sep = "")
+all_post_rec_data2$all_post_rec_RR_or_HR <- gsub("NA", "", all_post_rec_data2$all_post_rec_RR_or_HR)
+all_post_rec_data2 <- all_post_rec_data2 %>% unite(all_post_rec_RR_or_HR_CI, post_rec_unadj_HR_CI, post_rec_adj_RR_CI, post_rec_adj_HR_CI, sep = "")
+all_post_rec_data2$all_post_rec_RR_or_HR_CI <- gsub("NA", "", all_post_rec_data2$all_post_rec_RR_or_HR_CI)
+all_post_rec_data2 <- all_post_rec_data2 %>% unite(all_post_rec_RR_or_HR_CI_lower, post_rec_unadj_HR_CI_lower, post_rec_adj_RR_CI_lower, post_rec_adj_HR_CI_lower, sep = "")
+all_post_rec_data2$all_post_rec_RR_or_HR_CI_lower <- gsub("NA", "", all_post_rec_data2$all_post_rec_RR_or_HR_CI_lower)
+all_post_rec_data2 <- all_post_rec_data2 %>% unite(all_post_rec_RR_or_HR_CI_upper, post_rec_unadj_HR_CI_upper, post_rec_adj_RR_CI_upper, post_rec_adj_HR_CI_upper, sep = "")
+all_post_rec_data2$all_post_rec_RR_or_HR_CI_upper <- gsub("NA", "", all_post_rec_data2$all_post_rec_RR_or_HR_CI_upper)
+all_post_rec_data2$all_post_rec_RR_or_HR <- as.numeric(all_post_rec_data2$all_post_rec_RR_or_HR)
+all_post_rec_data2$all_post_rec_RR_or_HR_CI_lower <- as.numeric(all_post_rec_data2$all_post_rec_RR_or_HR_CI_lower)
+all_post_rec_data2$all_post_rec_RR_or_HR_CI_upper <- as.numeric(all_post_rec_data2$all_post_rec_RR_or_HR_CI_upper)
+all_post_rec_analysis2 <- metagen(TE = log(all_post_rec_RR_or_HR), lower = log(all_post_rec_RR_or_HR_CI_lower), upper = log(all_post_rec_RR_or_HR_CI_upper), studlab = author_year, data = all_post_rec_data2, exclude = NULL, sm = "HR")
 metareg_menopause_post_rec <- metareg(all_post_rec_analysis2, ~percent_postmenopausal)
 metareg_menopause_post_rec
 bubble(metareg_menopause_post_rec, studlab = TRUE)
 #this code is for a subgroup analysis of ER status for post bc death
 #again using 6-7 days pw use for Holmes
-p32 <- data[c(4, 427:430, 439:442, 456:459, 468:471)]
-post_bc_death_ER_data <- p32[c(2, 15, 17),]
+p32 <- data2[c(1, 463:466, 475:478, 492:495, 504:507)]
+post_bc_death_ER_data <- p32[c(7, 8, 15),]
 #do an ER+ meta analysis first
 post_bc_death_ER_data <- post_bc_death_ER_data %>% unite(post_bc_death_ER_pos, post_bc_death_ER_pos_6to7_daysaweekuse_RR, ER_pos_HR_post_bc_death, sep = "")
 post_bc_death_ER_data$post_bc_death_ER_pos <- gsub("NA", "", post_bc_death_ER_data$post_bc_death_ER_pos)
@@ -833,7 +957,7 @@ er_pos_post_bc_death_analysis <- metagen(TE = log(post_bc_death_ER_pos), lower =
 summary(er_pos_post_bc_death_analysis)
 forest.meta(er_pos_post_bc_death_analysis, sortvar = TE,predict = TRUE, print.tau2 = FALSE, leftlabs = c("Author", "g", "SE"))
 #now do ER negative meta analysis
-post_bc_death_ER_data <- post_bc_death_ER_data[-c(2),]
+post_bc_death_ER_data <- post_bc_death_ER_data[-c(3),]
 post_bc_death_ER_data <- post_bc_death_ER_data %>% unite(post_bc_death_ER_neg, post_bc_death_ER_neg_6to7_daysaweekuse_RR, post_bc_death_ER_neg_HR, sep = "")
 post_bc_death_ER_data$post_bc_death_ER_neg <- gsub("NA", "", post_bc_death_ER_data$post_bc_death_ER_neg)
 post_bc_death_ER_data <- post_bc_death_ER_data %>% unite(post_bc_death_ER_neg_CI, post_bc_death_ER_neg_6to7_daysaweekuse_RR_CI, post_bc_death_ER_neg_HR_CI, sep = "")
@@ -855,7 +979,7 @@ forest.meta(er_neg_post_bc_death_analysis, sortvar = TE,predict = TRUE, print.ta
 #pretty sure grade 1 is equal to low, grade 2 to intermediate and grade 3 to high, so will treat the data as such 
 #not going to do a grade 4 analysis bc only 2 papers have this data
 #this code is for a grade 1/2/3 proportion meta regression for pre bc death
-z1 <- data2[c(1, 65:68, 86:89, 96:99)]
+z1 <- data2[c(1, 67:70, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- z1[c(1, 4, 6, 15, 16, 23),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -881,7 +1005,7 @@ metareg_grade3_pre_bc_death <- metareg(all_pre_bc_death_analysis3, ~grade3_perce
 metareg_grade3_pre_bc_death
 bubble(metareg_grade3_pre_bc_death, studlab = TRUE)
 #this code is for grade meta regression of pre ac death
-z2 <- data2[c(1, 65:68, 189:192, 199:202)]
+z2 <- data2[c(1, 67:70, 214:217, 224:227)]
 all_pre_ac_death_data3 <- z2[c(1, 4, 6, 15, 18, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -906,7 +1030,7 @@ metareg_grade3_pre_ac_death <- metareg(all_pre_ac_death_analysis3, ~grade3_perce
 metareg_grade3_pre_ac_death
 bubble(metareg_grade3_pre_ac_death, studlab = TRUE)
 #this code is for a grade meta regression of pre rec
-z3 <- data2[c(1, 65:68, 216:219, 226:229, 232:235, 237:240)]
+z3 <- data2[c(1, 67:70, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- z3[c(5, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -939,7 +1063,7 @@ metareg_grade3_pre_rec <- metareg(all_pre_rec_analysis3, ~grade3_percent)
 metareg_grade3_pre_rec
 bubble(metareg_grade3_pre_rec, studlab = TRUE)
 #this code is for a grade meta regression of post bc death
-z4 <- data2[c(1, 65:68, 262:265, 273:276, 278:281, 283:286)]
+z4 <- data2[c(1, 67:70, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- z4[c(2, 6, 15, 16, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -968,7 +1092,7 @@ metareg_grade3_post_bc_death <- metareg(all_post_bc_death_analysis3, ~grade3_per
 metareg_grade3_post_bc_death
 bubble(metareg_grade3_post_bc_death, studlab = TRUE)
 #this code is for a post ac death grade meta regression
-z5 <- data2[c(1, 65:68, 596:599, 606:609, 612:615, 625:628, 630:633)]
+z5 <- data2[c(1, 67:70, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- z5[c(2, 6, 14, 15, 16, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1064,10 +1188,10 @@ metareg_sample_size_post_rec
 bubble(metareg_sample_size_post_rec, studlab = TRUE)
 #now do meta regressions of smoking status and all 6 analyses
 #start with pre bc death
-s1 <- data2[c(1, 75:77, 89:92, 99:102)]
+s1 <- data2[c(1, 89:91, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- s1[c(1, 4, 13, 16, 17, 21),]
 #unite columns
-#just going to leave it as all pre bc death analysis 3 to save time coding, can run stuff up to point is needed if need to do again
+#just going to leave it as all pre bc death analysis 3 to save time coding, can run stuff up to point if needed if need to do again
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR_CIs, unadj_pre_bc_death_OR_CI, adj_pre_bc_death_HR_CI, sep = "")
@@ -1091,7 +1215,7 @@ metareg_current_smokers_pre_bc_death <- metareg(all_pre_bc_death_analysis4, ~per
 metareg_current_smokers_pre_bc_death
 bubble(metareg_current_smokers_pre_bc_death, studlab = TRUE)
 #this code is for pre ac death smoking meta regression
-s2 <- data2[c(1, 75:77, 192:195, 202:205)]
+s2 <- data2[c(1, 89:91, 214:217, 224:227)]
 all_pre_ac_death_data3 <- s2[c(1, 4, 18, 21),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1116,7 +1240,7 @@ metareg_current_smokers_pre_ac_death
 bubble(metareg_current_smokers_pre_ac_death, studlab = TRUE)
 #not enough pre rec papers have smoking data to do a meta regression
 #this code is for a post bc death smoking meta regression
-s3 <- data2[c(1, 75:77, 265:268, 276:279, 281:284, 286:289)]
+s3 <- data2[c(1, 89:91, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- s3[c(2, 16, 22),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1144,7 +1268,7 @@ metareg_current_smokers_post_bc_death <- metareg(all_post_bc_death_analysis4, ~p
 metareg_current_smokers_post_bc_death
 bubble(metareg_current_smokers_post_bc_death, studlab = TRUE)
 #this code is for a post ac death smoking meta regression
-s4 <- data2[c(1, 75:77, 599:602, 609:612, 615:618, 628:631, 633:636)]
+s4 <- data2[c(1, 89:91, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- s4[c(2, 16, 22),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1199,7 +1323,7 @@ bubble(metareg_current_smokers_post_ac_death, studlab = TRUE)
 #start with meta regressions by % ER positive
 #for any analysis w Zhou 2019 involved may be worth doing a regression by % negative too
 #start as usual w pre bc death
-e1 <- data2[c(1, 70, 101:104, 111:114)]
+e1 <- data2[c(1, 72, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- e1[c(1, 4, 6, 7, 11, 15),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -1218,7 +1342,7 @@ metareg_ER_pos_pre_bc_death <- metareg(all_pre_bc_death_analysis5, ~ER_pos_perce
 metareg_ER_pos_pre_bc_death
 bubble(metareg_ER_pos_pre_bc_death, studlab = TRUE)
 #this is pre ac death er pos/neg
-e2 <- data2[c(1, 70, 71, 204:207, 214:217)] 
+e2 <- data2[c(1, 72, 73, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- e2[c(1, 4, 6, 11, 15, 18, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1239,7 +1363,7 @@ metareg_ER_neg_pre_ac_death <- metareg(all_pre_ac_death_analysis5, ~ER_neg_perce
 metareg_ER_neg_pre_ac_death
 bubble(metareg_ER_neg_pre_ac_death, studlab = TRUE)
 #this is for pre rec er pos/neg
-e3 <- data2[c(1, 70:71, 231:234, 241:244, 247:250, 252:255)]
+e3 <- data2[c(1, 72:73, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- e3[c(5, 7, 10, 18, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -1268,7 +1392,7 @@ metareg_ER_neg_pre_rec <- metareg(all_pre_rec_analysis5, ~ER_neg_percent)
 metareg_ER_neg_pre_rec
 bubble(metareg_ER_neg_pre_rec, studlab = TRUE)
 #this is for post bc death ER pos
-e4 <- data2[c(1, 70, 277:280, 288:291, 293:296, 298:301)]
+e4 <- data2[c(1, 72, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- e4[c(2, 3, 6, 7, 8, 11, 15),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1290,7 +1414,7 @@ metareg_ER_pos_post_bc_death <- metareg(all_post_bc_death_analysis5, ~ER_pos_per
 metareg_ER_pos_post_bc_death
 bubble(metareg_ER_pos_post_bc_death, studlab = TRUE)
 #this is for post ac death ER pos/neg
-e5 <- data2[c(1, 70:71, 611:614, 621:624, 627:630, 640:643, 645:648)]
+e5 <- data2[c(1, 72:73, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- e5[c(2, 3, 6, 8, 11, 14, 15, 20, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1338,7 +1462,7 @@ metareg_ER_neg_post_ac_death <- metareg(all_post_ac_death_analysis5, ~ER_neg_per
 metareg_ER_neg_post_ac_death
 bubble(metareg_ER_neg_post_ac_death, studlab = TRUE)
 #this is for post rec er pos 
-e6 <- data2[c(1, 70, 789:792, 795:798, 808:811)]
+e6 <- data2[c(1, 72, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- e6[c(5, 8, 10, 20),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -1361,7 +1485,7 @@ metareg_ER_pos_post_rec
 bubble(metareg_ER_pos_post_rec, studlab = TRUE)
 #now do meta regressions of PR status
 #start w pre bc death 
-pr1 <- data2[c(1, 72, 101:104, 111:114)]
+pr1 <- data2[c(1, 74, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- pr1[c(1, 4, 11),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -1380,7 +1504,7 @@ metareg_PR_pos_pre_bc_death <- metareg(all_pre_bc_death_analysis6, ~PR_pos_perce
 metareg_PR_pos_pre_bc_death
 bubble(metareg_PR_pos_pre_bc_death, studlab = TRUE)
 #this is pre ac death pr pos/neg
-pr2 <- data2[c(1, 72:73, 204:207, 214:217)] 
+pr2 <- data2[c(1, 74:75, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- pr2[c(1, 4, 11, 18, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1402,7 +1526,7 @@ metareg_PR_neg_pre_ac_death
 bubble(metareg_PR_neg_pre_ac_death, studlab = TRUE)
 #not enough papers have PR data to do pre rec PR meta analysis
 #this is for post bc death PR pos
-pr4 <- data2[c(1, 72, 277:280, 288:291, 293:296, 298:301)]
+pr4 <- data2[c(1, 74, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- pr4[c(2, 3, 11),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1424,7 +1548,7 @@ metareg_PR_pos_post_bc_death <- metareg(all_post_bc_death_analysis6, ~PR_pos_per
 metareg_PR_pos_post_bc_death
 bubble(metareg_PR_pos_post_bc_death, studlab = TRUE)
 #this is for post ac death PR pos/neg
-pr5 <- data2[c(1, 72:73, 611:614, 621:624, 627:630, 640:643, 645:648)]
+pr5 <- data2[c(1, 74:75, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- pr5[c(2, 3, 11, 14, 20, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1474,7 +1598,7 @@ bubble(metareg_PR_neg_post_ac_death, studlab = TRUE)
 #not enough papers have PR data to do a post rec meta regression
 #now do meta regressions for HER2+ proportion
 #start with pre bc death 
-h1 <- data2[c(1, 74, 101:104, 111:114)]
+h1 <- data2[c(1, 76, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- h1[c(1, 4, 7, 11, 23),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -1493,7 +1617,7 @@ metareg_HER2_pos_pre_bc_death <- metareg(all_pre_bc_death_analysis7, ~HER2_pos_p
 metareg_HER2_pos_pre_bc_death
 bubble(metareg_HER2_pos_pre_bc_death, studlab = TRUE)
 #this is for pre ac death HER2 pos
-h2 <- data2[c(1, 74, 204:207, 214:217)] 
+h2 <- data2[c(1, 76, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- h2[c(1, 4, 11, 18, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1511,7 +1635,7 @@ metareg_HER2_pos_pre_ac_death <- metareg(all_pre_ac_death_analysis7, ~HER2_pos_p
 metareg_HER2_pos_pre_ac_death
 bubble(metareg_HER2_pos_pre_ac_death, studlab = TRUE)
 #this is for pre rec HER2 pos
-h3 <- data2[c(1, 74, 231:234, 241:244, 247:250, 252:255)]
+h3 <- data2[c(1, 76, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- h3[c(7, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -1537,7 +1661,7 @@ metareg_HER2_pos_pre_rec <- metareg(all_pre_rec_analysis7, ~HER2_pos_percent)
 metareg_HER2_pos_pre_rec
 bubble(metareg_HER2_pos_pre_rec, studlab = TRUE)
 #this is for post bc death HER2 pos
-h4 <- data2[c(1, 74, 277:280, 288:291, 293:296, 298:301)]
+h4 <- data2[c(1, 76, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- h4[c(2, 7, 11, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1559,7 +1683,7 @@ metareg_HER2_pos_post_bc_death <- metareg(all_post_bc_death_analysis7, ~HER2_pos
 metareg_HER2_pos_post_bc_death
 bubble(metareg_HER2_pos_post_bc_death, studlab = TRUE)
 #this is for post ac death HER2 pos
-h5 <- data2[c(1, 74, 611:614, 621:624, 627:630, 640:643, 645:648)]
+h5 <- data2[c(1, 76, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- h5[c(2, 11, 14, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1606,7 +1730,7 @@ bubble(metareg_HER2_pos_post_ac_death, studlab = TRUE)
 #not enough post rec papers have HER2 data to do regression
 #now do HR status meta regressions for pre ac death and post ac death (only ones w enough papers (>=3) to justify it)
 #start with pre ac death
-hr1 <- data2[c(1, 76, 204:207, 214:217)] 
+hr1 <- data2[c(1, 78, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- hr1[c(21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1624,7 +1748,7 @@ metareg_HR_pos_pre_ac_death <- metareg(all_pre_ac_death_analysis8, ~HR_pos_perce
 metareg_HR_pos_pre_ac_death
 bubble(metareg_HR_pos_pre_ac_death, studlab = TRUE)
 #this is for post ac death HR pos
-hr2 <- data2[c(1, 76, 611:614, 621:624, 627:630, 640:643, 645:648)]
+hr2 <- data2[c(1, 78, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- hr2[c(14, 20, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1671,7 +1795,7 @@ bubble(metareg_HR_pos_post_ac_death, studlab = TRUE)
 #now do meta regressions of treatment details (radiotherapy, chemotherapy, hormone therapy, surgery)
 #start with radiotherapy proportion
 #start with pre bc death
-r1 <- data2[c(1, 79, 101:104, 111:114)]
+r1 <- data2[c(1, 81, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- r1[c(6, 7, 15, 16, 21, 23),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -1690,7 +1814,7 @@ metareg_radiation_pre_bc_death <- metareg(all_pre_bc_death_analysis9, ~radiation
 metareg_radiation_pre_bc_death
 bubble(metareg_radiation_pre_bc_death, studlab = TRUE)
 #this is for pre ac death radiation
-r2 <- data2[c(1, 79, 204:207, 214:217)] 
+r2 <- data2[c(1, 81, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- r2[c(6, 15, 18, 21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1708,7 +1832,7 @@ metareg_radiation_pre_ac_death <- metareg(all_pre_ac_death_analysis9, ~radiation
 metareg_radiation_pre_ac_death
 bubble(metareg_radiation_pre_ac_death, studlab = TRUE)
 #this is for pre rec radiation
-r3 <- data2[c(1, 79, 231:234, 241:244, 247:250, 252:255)]
+r3 <- data2[c(1, 81, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- r3[c(5, 7, 10, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -1734,7 +1858,7 @@ metareg_radiation_pre_rec <- metareg(all_pre_rec_analysis9, ~radiation_percent)
 metareg_radiation_pre_rec
 bubble(metareg_radiation_pre_rec, studlab = TRUE)
 #this is for post bc death radiation
-r4 <- data2[c(1, 79, 277:280, 288:291, 293:296, 298:301)]
+r4 <- data2[c(1, 81, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- r4[c(6, 7, 15, 16, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1756,7 +1880,7 @@ metareg_radiation_post_bc_death <- metareg(all_post_bc_death_analysis9, ~radiati
 metareg_radiation_post_bc_death
 bubble(metareg_radiation_post_bc_death, studlab = TRUE)
 #this is for post ac death radiation
-r5 <- data2[c(1, 79, 611:614, 621:624, 627:630, 640:643, 645:648)]
+r5 <- data2[c(1, 81, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- r5[c(6, 15, 16, 19, 20, 22, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1801,7 +1925,7 @@ metareg_radiation_post_ac_death <- metareg(all_post_ac_death_analysis9, ~radiati
 metareg_radiation_post_ac_death
 bubble(metareg_radiation_post_ac_death, studlab = TRUE)
 #this is for post rec radiation
-r6 <- data2[c(1, 79, 789:792, 795:798, 808:811)]
+r6 <- data2[c(1, 81, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- r6[c(5, 10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -1824,7 +1948,7 @@ metareg_radiation_post_rec
 bubble(metareg_radiation_post_rec, studlab = TRUE)
 #now do chemo meta regressions for all meta analyses
 #start with pre bc death again
-c1 <- data2[c(1, 80, 101:104, 111:114)]
+c1 <- data2[c(1, 82, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- c1[c(6, 7, 15, 16, 21, 23),]
 #unite columns
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
@@ -1843,7 +1967,7 @@ metareg_chemo_pre_bc_death <- metareg(all_pre_bc_death_analysis10, ~chemo_percen
 metareg_chemo_pre_bc_death
 bubble(metareg_chemo_pre_bc_death, studlab = TRUE)
 #this is for pre ac death chemo
-c2 <- data2[c(1, 80, 204:207, 214:217)] 
+c2 <- data2[c(1, 82, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- c2[c(6, 15, 18, 21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -1861,7 +1985,7 @@ metareg_chemo_pre_ac_death <- metareg(all_pre_ac_death_analysis10, ~chemo_percen
 metareg_chemo_pre_ac_death
 bubble(metareg_chemo_pre_ac_death, studlab = TRUE)
 #this is for pre rec chemo
-c3 <- data2[c(1, 80, 231:234, 241:244, 247:250, 252:255)]
+c3 <- data2[c(1, 82, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- c3[c(5, 7, 10, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -1887,7 +2011,7 @@ metareg_chemo_pre_rec <- metareg(all_pre_rec_analysis10, ~chemo_percent)
 metareg_chemo_pre_rec
 bubble(metareg_chemo_pre_rec, studlab = TRUE)
 #this is for post bc death chemo
-c4 <- data2[c(1, 80, 277:280, 288:291, 293:296, 298:301)]
+c4 <- data2[c(1, 82, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- c4[c(2, 6, 7, 15, 16, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -1909,7 +2033,7 @@ metareg_chemo_post_bc_death <- metareg(all_post_bc_death_analysis10, ~chemo_perc
 metareg_chemo_post_bc_death
 bubble(metareg_chemo_post_bc_death, studlab = TRUE)
 #this is for post ac death chemo
-c5 <- data2[c(1, 80, 611:614, 621:624, 627:630, 640:643, 645:648)]
+c5 <- data2[c(1, 82, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- c5[c(2, 6, 14, 15, 16, 19, 20, 22, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -1954,7 +2078,7 @@ metareg_chemo_post_ac_death <- metareg(all_post_ac_death_analysis10, ~chemo_perc
 metareg_chemo_post_ac_death
 bubble(metareg_chemo_post_ac_death, studlab = TRUE)
 #this is for post rec chemo
-c6 <- data2[c(1, 80, 789:792, 795:798, 808:811)]
+c6 <- data2[c(1, 82, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- c6[c(5, 10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -1977,7 +2101,7 @@ metareg_chemo_post_rec
 bubble(metareg_chemo_post_rec, studlab = TRUE)
 #now do meta regressions for hormone therapy proportion
 #start with pre bc death
-t1 <- data2[c(1, 81, 101:104, 111:114)]
+t1 <- data2[c(1, 83, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- t1[c(6, 7, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -1995,7 +2119,7 @@ metareg_hormone_therapy_pre_bc_death <- metareg(all_pre_bc_death_analysis11, ~ho
 metareg_hormone_therapy_pre_bc_death
 bubble(metareg_hormone_therapy_pre_bc_death, studlab = TRUE)
 #this is for pre ac death hormone therapy
-t2 <- data2[c(1, 81, 204:207, 214:217)] 
+t2 <- data2[c(1, 83, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- t2[c(6, 18, 21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2013,7 +2137,7 @@ metareg_hormone_therapy_pre_ac_death <- metareg(all_pre_ac_death_analysis11, ~ho
 metareg_hormone_therapy_pre_ac_death
 bubble(metareg_hormone_therapy_pre_ac_death, studlab = TRUE)
 #this is for pre rec hormone therapy
-t3 <- data2[c(1, 81, 231:234, 241:244, 247:250, 252:255)]
+t3 <- data2[c(1, 83, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- t3[c(5, 7, 10, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2039,7 +2163,7 @@ metareg_hormone_therapy_pre_rec <- metareg(all_pre_rec_analysis11, ~hormone_ther
 metareg_hormone_therapy_pre_rec
 bubble(metareg_hormone_therapy_pre_rec, studlab = TRUE)
 #this is for post bc death hormone therapy
-t4 <- data2[c(1, 81, 277:280, 288:291, 293:296, 298:301)]
+t4 <- data2[c(1, 83, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- t4[c(2, 6, 7, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -2061,7 +2185,7 @@ metareg_hormone_therapy_post_bc_death <- metareg(all_post_bc_death_analysis11, ~
 metareg_hormone_therapy_post_bc_death
 bubble(metareg_hormone_therapy_post_bc_death, studlab = TRUE)
 #this is for post ac death hormone therapy
-t5 <- data2[c(1, 81, 611:614, 621:624, 627:630, 640:643, 645:648)]
+t5 <- data2[c(1, 83, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- t5[c(2, 6, 22, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2106,7 +2230,7 @@ metareg_hormone_therapy_post_ac_death <- metareg(all_post_ac_death_analysis11, ~
 metareg_hormone_therapy_post_ac_death
 bubble(metareg_hormone_therapy_post_ac_death, studlab = TRUE)
 #this is for post rec hormone therapy
-t6 <- data2[c(1, 81, 789:792, 795:798, 808:811)]
+t6 <- data2[c(1, 83, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- t6[c(5, 10, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2129,7 +2253,7 @@ metareg_hormone_therapy_post_rec
 bubble(metareg_hormone_therapy_post_rec, studlab = TRUE)
 #now do meta regressions of surgery proportion
 #start with pre bc death
-g1 <- data2[c(1, 82, 101:104, 111:114)]
+g1 <- data2[c(1, 84, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- g1[c(6, 15, 16, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2147,7 +2271,7 @@ metareg_surgery_pre_bc_death <- metareg(all_pre_bc_death_analysis12, ~surgery_pe
 metareg_surgery_pre_bc_death
 bubble(metareg_surgery_pre_bc_death, studlab = TRUE)
 #this is for pre ac death surgery 
-g2 <- data2[c(1, 82, 204:207, 214:217)] 
+g2 <- data2[c(1, 84, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- g2[c(6, 15, 18, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2165,7 +2289,7 @@ metareg_surgery_pre_ac_death <- metareg(all_pre_ac_death_analysis12, ~surgery_pe
 metareg_surgery_pre_ac_death
 bubble(metareg_surgery_pre_ac_death, studlab = TRUE)
 #this is for pre rec surgery
-g3 <- data2[c(1, 82, 231:234, 241:244, 247:250, 252:255)]
+g3 <- data2[c(1, 84, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- g3[c(5, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2191,7 +2315,7 @@ metareg_surgery_pre_rec <- metareg(all_pre_rec_analysis12, ~surgery_percent)
 metareg_surgery_pre_rec
 bubble(metareg_surgery_pre_rec, studlab = TRUE)
 #this is for post bc death surgery
-g4 <- data2[c(1, 82, 277:280, 288:291, 293:296, 298:301)]
+g4 <- data2[c(1, 84, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- g4[c(6, 15, 16, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -2213,7 +2337,7 @@ metareg_surgery_post_bc_death <- metareg(all_post_bc_death_analysis12, ~surgery_
 metareg_surgery_post_bc_death
 bubble(metareg_surgery_post_bc_death, studlab = TRUE)
 #this is for post ac death surgery
-g5 <- data2[c(1, 82, 611:614, 621:624, 627:630, 640:643, 645:648)]
+g5 <- data2[c(1, 84, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- g5[c(6, 15, 16, 19, 22, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2258,7 +2382,7 @@ metareg_surgery_post_ac_death <- metareg(all_post_ac_death_analysis12, ~surgery_
 metareg_surgery_post_ac_death
 bubble(metareg_surgery_post_ac_death, studlab = TRUE)
 #this is for post rec surgery
-g6 <- data2[c(1, 82, 789:792, 795:798, 808:811)]
+g6 <- data2[c(1, 84, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- g6[c(5, 19, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2282,7 +2406,7 @@ bubble(metareg_surgery_post_rec, studlab = TRUE)
 #now do meta regressions by race 
 #start with proportion of cohort white- will be doing this for every analysis except post bc death
 #start with pre bc death
-w1 <- data2[c(1, 92, 104:107, 114:117)]
+w1 <- data2[c(1, 97, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- w1[c(11, 13, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2300,7 +2424,7 @@ metareg_white_pre_bc_death <- metareg(all_pre_bc_death_analysis13, ~percent_whit
 metareg_white_pre_bc_death
 bubble(metareg_white_pre_bc_death, studlab = TRUE)
 #this is for pre ac death proportion white
-w2 <- data2[c(1, 92, 207:210, 217:220)] 
+w2 <- data2[c(1, 97, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- w2[c(11, 21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2318,7 +2442,7 @@ metareg_white_pre_ac_death <- metareg(all_pre_ac_death_analysis13, ~percent_whit
 metareg_white_pre_ac_death
 bubble(metareg_white_pre_ac_death, studlab = TRUE)
 #this is for pre rec proportion white
-w3 <- data2[c(1, 92, 234:237, 244:247, 250:253, 255:258)]
+w3 <- data2[c(1, 97, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- w3[c(10, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2344,7 +2468,7 @@ metareg_white_pre_rec <- metareg(all_pre_rec_analysis13, ~percent_white)
 metareg_white_pre_rec
 bubble(metareg_white_pre_rec, studlab = TRUE)
 #this is for post ac death proportion white
-w4 <- data2[c(1, 92, 614:617, 624:627, 630:633, 643:646, 648:651)]
+w4 <- data2[c(1, 97, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- w4[c(11, 19, 20, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2389,7 +2513,7 @@ metareg_white_post_ac_death <- metareg(all_post_ac_death_analysis13, ~percent_wh
 metareg_white_post_ac_death
 bubble(metareg_white_post_ac_death, studlab = TRUE)
 #this is for post rec proportion white
-w5 <- data2[c(1, 92, 792:795, 798:801, 811:814)]
+w5 <- data2[c(1, 97, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- w5[c(10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2412,7 +2536,7 @@ metareg_white_post_rec
 bubble(metareg_white_post_rec, studlab = TRUE)
 #now do regressions by proportion of study cohort of black ethnicity
 #start with pre bc death
-b1 <- data2[c(1, 93, 104:107, 114:117)]
+b1 <- data2[c(1, 98, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- b1[c(13, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2430,7 +2554,7 @@ metareg_black_pre_bc_death <- metareg(all_pre_bc_death_analysis14, ~percent_blac
 metareg_black_pre_bc_death
 bubble(metareg_black_pre_bc_death, studlab = TRUE)
 #this is for pre ac death by proportion black
-b2 <- data2[c(1, 93, 207:210, 217:220)] 
+b2 <- data2[c(1, 98, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- b2[c(21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2448,7 +2572,7 @@ metareg_black_pre_ac_death <- metareg(all_pre_ac_death_analysis14, ~percent_blac
 metareg_black_pre_ac_death
 bubble(metareg_black_pre_ac_death, studlab = TRUE)
 #this is for pre rec proportion black
-b3 <- data2[c(1, 93, 234:237, 244:247, 250:253, 255:258)]
+b3 <- data2[c(1, 98, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- b3[c(10, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2474,7 +2598,7 @@ metareg_black_pre_rec <- metareg(all_pre_rec_analysis14, ~percent_black)
 metareg_black_pre_rec
 bubble(metareg_black_pre_rec, studlab = TRUE)
 #this is for post ac death proportion black
-b4 <- data2[c(1, 93, 614:617, 624:627, 630:633, 643:646, 648:651)]
+b4 <- data2[c(1, 98, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- b4[c(19, 20, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2519,7 +2643,7 @@ metareg_black_post_ac_death <- metareg(all_post_ac_death_analysis14, ~percent_bl
 metareg_black_post_ac_death
 bubble(metareg_black_post_ac_death, studlab = TRUE)
 #this is for post rec proportion black
-b5 <- data2[c(1, 93, 792:795, 798:801, 811:814)]
+b5 <- data2[c(1, 98, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- b5[c(10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2542,7 +2666,7 @@ metareg_black_post_rec
 bubble(metareg_black_post_rec, studlab = TRUE)
 #now do meta regressions of proportion asian
 #start with post ac death
-a1 <- data2[c(1, 94, 614:617, 624:627, 630:633, 643:646, 648:651)]
+a1 <- data2[c(1, 99, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- a1[c(19, 20, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2587,7 +2711,7 @@ metareg_asian_post_ac_death <- metareg(all_post_ac_death_analysis15, ~percent_as
 metareg_asian_post_ac_death
 bubble(metareg_asian_post_ac_death, studlab = TRUE)
 #this is for post rec proportion asian
-a2 <- data2[c(1, 94, 792:795, 798:801, 811:814)]
+a2 <- data2[c(1, 99, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- a2[c(10, 19, 20),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2610,7 +2734,7 @@ metareg_asian_post_rec
 bubble(metareg_asian_post_rec, studlab = TRUE)
 #now do meta regression based on node positivity data
 #start with pre bc death
-n1 <- data2[c(1, 64, 106:109, 116:119)]
+n1 <- data2[c(1, 64, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- n1[c(1, 4, 6, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2628,7 +2752,7 @@ metareg_node_pre_bc_death <- metareg(all_pre_bc_death_analysis15, ~node_pos_perc
 metareg_node_pre_bc_death
 bubble(metareg_node_pre_bc_death, studlab = TRUE)
 #this code is for pre ac death node pos
-n2 <- data2[c(1, 64, 209:212, 219:222)] 
+n2 <- data2[c(1, 64, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- n2[c(1, 4, 6, 18, 21, 23),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2646,7 +2770,7 @@ metareg_node_pre_ac_death <- metareg(all_pre_ac_death_analysis15, ~node_pos_perc
 metareg_node_pre_ac_death
 bubble(metareg_node_pre_ac_death, studlab = TRUE)
 #this is for pre rec node pos
-n3 <- data2[c(1, 64, 236:239, 246:249, 252:255, 257:260)]
+n3 <- data2[c(1, 64, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- n3[c(10, 18, 23),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2672,7 +2796,7 @@ metareg_node_pre_rec <- metareg(all_pre_rec_analysis15, ~node_pos_percent)
 metareg_node_pre_rec
 bubble(metareg_node_pre_rec, studlab = TRUE)
 #this is for post bc death node pos
-n4 <- data2[c(1, 64, 282:285, 293:296, 298:301, 303:306)]
+n4 <- data2[c(1, 64, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- n4[c(1, 3, 6, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -2694,7 +2818,7 @@ metareg_node_post_bc_death <- metareg(all_post_bc_death_analysis15, ~node_pos_pe
 metareg_node_post_bc_death
 bubble(metareg_node_post_bc_death, studlab = TRUE)
 #this is for post ac death node pos
-n5 <- data2[c(1, 64, 616:619, 626:629, 632:635, 645:648, 650:653)]
+n5 <- data2[c(1, 64, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- n5[c(1, 3, 6, 19, 20, 23),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2739,7 +2863,7 @@ metareg_node_post_ac_death <- metareg(all_post_ac_death_analysis16, ~node_pos_pe
 metareg_node_post_ac_death
 bubble(metareg_node_post_ac_death, studlab = TRUE)
 #this is for post rec node pos
-n6 <- data2[c(1, 64, 794:797, 800:803, 813:816)]
+n6 <- data2[c(1, 64, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- n6[c(10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2764,8 +2888,7 @@ bubble(metareg_node_post_rec, studlab = TRUE)
 #now do a meta regression of proportion of people with bmi <25, 25-30, >30
 #start with bmi <25
 #start with pre bc death
-#start with pre bc death
-x1 <- data2[c(1, 93, 109:112, 119:122)]
+x1 <- data2[c(1, 93, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- x1[c(4, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2783,7 +2906,7 @@ metareg_bmiunder25_pre_bc_death <- metareg(all_pre_bc_death_analysis17, ~bmi_und
 metareg_bmiunder25_pre_bc_death
 bubble(metareg_bmiunder25_pre_bc_death, studlab = TRUE)
 #this is for pre ac death bmi under 25 
-x2 <- data2[c(1, 93, 212:215, 222:225)] 
+x2 <- data2[c(1, 93, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- x2[c(4, 18, 21, 23),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2801,7 +2924,7 @@ metareg_bmiunder25_pre_ac_death <- metareg(all_pre_ac_death_analysis17, ~bmi_und
 metareg_bmiunder25_pre_ac_death
 bubble(metareg_bmiunder25_pre_ac_death, studlab = TRUE)
 #this is for pre rec bmi under 25
-x3 <- data2[c(1, 93, 239:242, 249:252, 255:258, 260:263)]
+x3 <- data2[c(1, 93, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- x3[c(10, 18, 23),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2827,7 +2950,7 @@ metareg_bmiunder25_pre_rec <- metareg(all_pre_rec_analysis17, ~bmi_under25_perce
 metareg_bmiunder25_pre_rec
 bubble(metareg_bmiunder25_pre_rec, studlab = TRUE)
 #this is for post bc death bmi under 25
-x4 <- data2[c(1, 93, 285:288, 296:299, 301:304, 306:309)]
+x4 <- data2[c(1, 93, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- x4[c(8, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -2849,7 +2972,7 @@ metareg_bmiunder25_post_bc_death <- metareg(all_post_bc_death_analysis17, ~bmi_u
 metareg_bmiunder25_post_bc_death
 bubble(metareg_bmiunder25_post_bc_death, studlab = TRUE)
 #this is for post ac death bmi under 25
-x5 <- data2[c(1, 93, 619:622, 629:632, 635:638, 648:651, 653:656)]
+x5 <- data2[c(1, 93, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- x5[c(8, 14, 22, 23),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -2894,7 +3017,7 @@ metareg_bmiunder25_post_ac_death <- metareg(all_post_ac_death_analysis17, ~bmi_u
 metareg_bmiunder25_post_ac_death
 bubble(metareg_bmiunder25_post_ac_death, studlab = TRUE)
 #this is for post rec bmi under 25
-x6 <- data2[c(1, 93, 797:800, 803:806, 816:819)]
+x6 <- data2[c(1, 93, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- x6[c(8, 10, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
@@ -2917,7 +3040,7 @@ metareg_bmiunder25_post_rec
 bubble(metareg_bmiunder25_post_rec, studlab = TRUE)
 #now do meta regressions based on proportion of cohort w bmi >25 and <30
 #start with pre bc death
-y1 <- data2[c(1, 94, 109:112, 119:122)]
+y1 <- data2[c(1, 94, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- y1[c(4, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -2935,7 +3058,7 @@ metareg_bmi25to30_pre_bc_death <- metareg(all_pre_bc_death_analysis18, ~bmi_25to
 metareg_bmi25to30_pre_bc_death
 bubble(metareg_bmi25to30_pre_bc_death, studlab = TRUE)
 #this is for pre ac death bmi 25-30
-y2 <- data2[c(1, 94, 212:215, 222:225)] 
+y2 <- data2[c(1, 94, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- y2[c(4, 18, 21, 23),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -2953,7 +3076,7 @@ metareg_bmi25to30_pre_ac_death <- metareg(all_pre_ac_death_analysis18, ~bmi_25to
 metareg_bmi25to30_pre_ac_death
 bubble(metareg_bmi25to30_pre_ac_death, studlab = TRUE)
 #this is for pre rec bmi 25-30
-y3 <- data2[c(1, 94, 239:242, 249:252, 255:258, 260:263)]
+y3 <- data2[c(1, 94, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- y3[c(10, 18, 23),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -2980,7 +3103,7 @@ metareg_bmi25to30_pre_rec
 bubble(metareg_bmi25to30_pre_rec, studlab = TRUE)
 #not enough data to do post bc death bmi 25-30
 #this is for post ac death bmi 25-30
-y4 <- data2[c(1, 94, 619:622, 629:632, 635:638, 648:651, 653:656)]
+y4 <- data2[c(1, 94, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- y4[c(14, 22, 23),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -3027,7 +3150,7 @@ bubble(metareg_bmi25to30_post_ac_death, studlab = TRUE)
 #not enough data to do post rec bmi 25-30
 #now do meta regressions based on proportion of cohort w bmi >30
 #start with pre bc death
-v1 <- data2[c(1, 95, 109:112, 119:122)]
+v1 <- data2[c(1, 95, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- v1[c(4, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -3045,7 +3168,7 @@ metareg_bmiover30_pre_bc_death <- metareg(all_pre_bc_death_analysis19, ~bmi_over
 metareg_bmiover30_pre_bc_death
 bubble(metareg_bmiover30_pre_bc_death, studlab = TRUE)
 #this code is for pre ac death bmi over 30
-v2 <- data2[c(1, 95, 212:215, 222:225)] 
+v2 <- data2[c(1, 95, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- v2[c(4, 18, 21, 23),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -3063,7 +3186,7 @@ metareg_bmiover30_pre_ac_death <- metareg(all_pre_ac_death_analysis19, ~bmi_over
 metareg_bmiover30_pre_ac_death
 bubble(metareg_bmiover30_pre_ac_death, studlab = TRUE)
 #this is for pre rec bmi over 30
-v3 <- data2[c(1, 95, 239:242, 249:252, 255:258, 260:263)]
+v3 <- data2[c(1, 95, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- v3[c(10, 18, 23),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -3090,7 +3213,7 @@ metareg_bmiover30_pre_rec
 bubble(metareg_bmiover30_pre_rec, studlab = TRUE)
 #not enough data to do post bc death bmi >30
 #this is for post ac death bmi >30
-v4 <- data2[c(1, 95, 619:622, 629:632, 635:638, 648:651, 653:656)]
+v4 <- data2[c(1, 95, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- v4[c(14, 22, 23),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -3137,7 +3260,7 @@ bubble(metareg_bmiover30_post_ac_death, studlab = TRUE)
 #not enough data to do post rec bmi >30
 #now do meta regression of followup length and all analyses
 #start with pre bc death 
-f1 <- data2[c(1, 104, 110:113, 120:123)]
+f1 <- data2[c(1, 104, 111:114, 121:124)]
 all_pre_bc_death_analysis_data3 <- f1[c(6, 7, 15, 16, 17, 21, 23),]
 all_pre_bc_death_analysis_data3 <- all_pre_bc_death_analysis_data3 %>% unite(pre_bc_death_OR_or_HR, unadj_pre_bc_death_OR_only, adj_pre_bc_death_HR_only, sep = "")
 all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR <- gsub("NA", "", all_pre_bc_death_analysis_data3$pre_bc_death_OR_or_HR)
@@ -3155,7 +3278,7 @@ metareg_followup_pre_bc_death <- metareg(all_pre_bc_death_analysis20, ~mean_or_m
 metareg_followup_pre_bc_death
 bubble(metareg_followup_pre_bc_death, studlab = TRUE)
 #this is for pre ac death followup length
-f2 <- data2[c(1, 104, 213:216, 223:226)] 
+f2 <- data2[c(1, 104, 214:217, 224:227)] 
 all_pre_ac_death_data3 <- f2[c(6, 15, 18, 21, 23, 24),]
 all_pre_ac_death_data3 <- all_pre_ac_death_data3 %>% unite(pre_ac_death_OR_or_HR, unadj_pre_ac_death_after5years_OR_only, adj_pre_ac_death_HR, sep = "")
 all_pre_ac_death_data3$pre_ac_death_OR_or_HR <- gsub("NA", "", all_pre_ac_death_data3$pre_ac_death_OR_or_HR)
@@ -3173,7 +3296,7 @@ metareg_followup_pre_ac_death <- metareg(all_pre_ac_death_analysis20, ~mean_or_m
 metareg_followup_pre_ac_death
 bubble(metareg_followup_pre_ac_death, studlab = TRUE)
 #this is for pre rec follouwp
-f3 <- data2[c(1, 104, 240:243, 250:253, 256:259, 261:264)]
+f3 <- data2[c(1, 104, 241:244, 251:254, 257:260, 262:265)]
 all_pre_rec_data3 <- f3[c(5, 7, 10, 18, 23, 24),]
 all_pre_rec_data3 <- all_pre_rec_data3 %>% unite(pre_rec_OR_RR_or_HR, unadj_pre_rec_after5years_OR_only, pre_adj_rec_RR_only, unadj_pre_rec_HR_only, adj_pre_rec_HR_only, sep = "")
 all_pre_rec_data3$pre_rec_OR_RR_or_HR <- gsub("NA", "", all_pre_rec_data3$pre_rec_OR_RR_or_HR)
@@ -3199,7 +3322,7 @@ metareg_followup_pre_rec <- metareg(all_pre_rec_analysis20, ~mean_or_median_foll
 metareg_followup_pre_rec
 bubble(metareg_followup_pre_rec, studlab = TRUE)
 #this is for post bc death followup
-f4 <- data2[c(1, 104, 286:289, 297:300, 302:305, 307:310)]
+f4 <- data2[c(1, 104, 287:290, 298:301, 303:306, 308:311)]
 all_post_bc_death_data3 <- f4[c(3, 6, 7, 9, 15, 16, 22, 23),]
 all_post_bc_death_data3$unadj_post_bc_death_OR_only <- gsub("0.98", "", all_post_bc_death_data3$unadj_post_bc_death_OR_only)
 all_post_bc_death_data3$unadj_post_bc_death_OR_CI <- gsub("0.83-1.15", "", all_post_bc_death_data3$unadj_post_bc_death_OR_CI)
@@ -3221,7 +3344,7 @@ metareg_followup_post_bc_death <- metareg(all_post_bc_death_analysis20, ~mean_or
 metareg_followup_post_bc_death
 bubble(metareg_followup_post_bc_death, studlab = TRUE)
 #this is for post ac death followup
-f5 <- data2[c(1, 104, 620:623, 630:633, 636:639, 649:652, 654:657)]
+f5 <- data2[c(1, 104, 621:624, 631:634, 637:640, 650:653, 655:658)]
 all_post_ac_data3 <- f5[c(3, 6, 9, 12, 15, 16, 19, 20, 22, 23, 24),]
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.08", "", all_post_ac_data3$post_ac_death_unadj_HR)
 all_post_ac_data3$post_ac_death_unadj_HR <- gsub("1.22", "", all_post_ac_data3$post_ac_death_unadj_HR)
@@ -3266,7 +3389,7 @@ metareg_followup_post_ac_death <- metareg(all_post_ac_death_analysis20, ~mean_or
 metareg_followup_post_ac_death
 bubble(metareg_followup_post_ac_death, studlab = TRUE)
 #this is for post rec followup
-f6 <- data2[c(1, 104, 798:801, 804:807, 817:820)]
+f6 <- data2[c(1, 104, 799:802, 805:808, 818:821)]
 all_post_rec_data2 <- f6[c(5, 10, 19, 20, 23),]
 all_post_rec_data2$post_rec_unadj_HR_only <- gsub("0.98", "", all_post_rec_data2$post_rec_unadj_HR_only)
 all_post_rec_data2$post_rec_unadj_HR_CI <- gsub("0.81-1.20", "", all_post_rec_data2$post_rec_unadj_HR_CI)
